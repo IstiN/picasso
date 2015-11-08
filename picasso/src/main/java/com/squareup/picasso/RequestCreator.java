@@ -402,7 +402,9 @@ public class RequestCreator {
    */
   public Bitmap get() throws IOException {
     long started = System.nanoTime();
-    checkNotMain();
+    if (picasso.checkMainThreadsEnabled) {
+      checkNotMain();
+    }
 
     if (deferred) {
       throw new IllegalStateException("Fit cannot be used with get.");
@@ -518,7 +520,9 @@ public class RequestCreator {
    */
   public void into(Target target) {
     long started = System.nanoTime();
-    checkMain();
+    if (picasso.checkMainThreadsEnabled) {
+      checkMain();
+    }
 
     if (target == null) {
       throw new IllegalArgumentException("Target must not be null.");
@@ -646,7 +650,9 @@ public class RequestCreator {
    */
   public void into(ImageView target, Callback callback) {
     long started = System.nanoTime();
-    checkMain();
+    if (picasso.checkMainThreadsEnabled) {
+      checkMain();
+    }
 
     if (target == null) {
       throw new IllegalArgumentException("Target must not be null.");

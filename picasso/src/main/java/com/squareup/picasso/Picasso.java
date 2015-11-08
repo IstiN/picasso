@@ -158,6 +158,7 @@ public class Picasso {
 
   boolean indicatorsEnabled;
   volatile boolean loggingEnabled;
+  boolean checkMainThreadsEnabled = true;
 
   boolean shutdown;
 
@@ -226,7 +227,9 @@ public class Picasso {
    * @see RequestCreator#tag(Object)
    */
   public void cancelTag(Object tag) {
-    checkMain();
+    if (checkMainThreadsEnabled) {
+      checkMain();
+    }
     if (tag == null) {
       throw new IllegalArgumentException("Cannot cancel requests with null tag.");
     }
@@ -425,6 +428,19 @@ public class Picasso {
   @SuppressWarnings("UnusedDeclaration") // Public API.
   public void setLoggingEnabled(boolean enabled) {
     loggingEnabled = enabled;
+  }
+
+
+  /**
+   * Toggle whether picasso check main thread is enabled.
+   */
+  public void setCheckMainThreads(boolean enabled) {
+    checkMainThreadsEnabled = enabled;
+  }
+
+  /** {@code true} if picasso check main thread is enabled. */
+  public boolean isCheckMainThreadsEnabled() {
+    return checkMainThreadsEnabled;
   }
 
   /** {@code true} if debug logging is enabled. */
